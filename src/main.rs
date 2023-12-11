@@ -1,7 +1,10 @@
+use std::io;
+
 fn main() {
-    println!("Hello, world!") ;
-    let mut x = 4;
-    println!("x is : {}", x);
-    x = 5;
-    println!("x is {}", x);
+    println!("Hello, world!");
+    let mut input = String::new();
+
+    io::stdin().read_line(&mut input).expect("Failed to read line");
+    println!("You typed: {}", input);
 }
+ 
