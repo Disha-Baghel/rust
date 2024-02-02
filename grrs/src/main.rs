@@ -15,15 +15,23 @@ fn main() -> std::io::Result<()>{
 
     let args = Cli::parse();
 
-    let file = std::fs::File::open(&args.path)?;
-    let reader = BufReader::new(file);
+    // let file = std::fs::File::open(&args.path)?;
+    // let reader = BufReader::new(file);
 
-    for line in reader.lines() {
-        let line = line?;
-        if line.contains(&args.pattern) {
-            println!("{}", line);
-        }
-    }
+    // for line in reader.lines() {
+    //     let line = line?;
+    //     if line.contains(&args.pattern) {
+    //         println!("{}", line);
+    //     }
+    // }
+
+    let result = std::fs::read_to_string(&args.path)?;
+    let content = match result {
+        Ok(content) => {content},
+        Err(e) => {panic!("can't read file: {}", e);}
+    };
+    println!("{}", content);
+    
     Ok(())
 
 }
