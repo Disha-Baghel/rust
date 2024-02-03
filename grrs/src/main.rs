@@ -25,6 +25,7 @@ fn main() -> std::io::Result<()>{
     //     }
     // }
 
+    
     let result = std::fs::read_to_string(&args.path)?;
     let content = match result {
         Ok(content) => {content},
