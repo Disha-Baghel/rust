@@ -1,39 +1,24 @@
+use anyhow::{Context, Result};
 use clap::Parser;
-use std::io::BufReader; 
-use std::io::BufRead;
 
-// Search for a pattern in a file and display the lines that contain it.
+//Search for a pattern in a file and display the lines that contain it.
 #[derive(Parser)]
 struct Cli {
-    pattern: String,
+    // pattern to look for
+    pattern: String, 
+    // path to the file read
     path: std::path::PathBuf,
 }
 
-fn main() -> std::io::Result<()>{
-    // let pattern = std::env::args().nth(1).expect("no pattern given");
-    // let path = std::env::args().nth(2).expect("no path given");
-
+fn main() -> Result<()> {
     let args = Cli::parse();
 
-    // let file = std::fs::File::open(&args.path)?;
-    // let reader = BufReader::new(file);
+    let content = std::fs::read_to_string(&args.path).with_context(|| format!("could not read file `{}`", args.path.display()))?;
 
-    // for line in reader.lines() {
-    //     let line = line?;
-    //     if line.contains(&args.pattern) {
-    //         println!("{}", line);
-    //     }
-    // }
-
-    
-    let result = std::fs::read_to_string(&args.path)?;
-    let content = match result {
-        Ok(content) => {content},
-        Err(e) => {panic!("can't read file: {}", e);}
-    };
-    println!("{}", content);
-    
+    for line in content.lines() {
+        if line.contains(&args.pattern) {
+            println!("{}", line);
+        }
+    }
     Ok(())
-
 }
-    
